@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vladyslav Nebrekh — Infrastructure Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0F172A;
+  --dark: #1A2332;
+  --blue: #2563EB;
+  --blue-light: #3B82F6;
+  --cyan: #0891B2;
+  --purple: #7C3AED;
+  --slate: #334155;
+  --muted: #64748B;
+  --border: #CBD5E1;
+  --bg: #F8FAFC;
+  --white: #FFFFFF;
+  --card: #FFFFFF;
+  --tag-bg: #EFF6FF;
+  --tag-sec: #E0F2FE;
+  --tag-ai: #F3E8FF;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--dark);overflow-x:hidden}
+
+/* ─── LANG SWITCHER ─────────────────────────────── */
+.lang-bar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:flex-end;align-items:center;
+  padding:10px 32px;
+  background:rgba(248,250,252,0.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.lang-btn{
+  font-family:'Syne',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 14px;border-radius:20px;border:1.5px solid var(--border);
+  cursor:pointer;transition:all .2s;background:transparent;color:var(--muted);
+  margin-left:6px;
+}
+.lang-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.lang-btn:hover:not(.active){border-color:var(--blue);color:var(--blue)}
+
+/* ─── HERO ──────────────────────────────────────── */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  background: linear-gradient(135deg, var(--navy) 0%, #1e3a5f 50%, #0f2744 100%);
+  position:relative;overflow:hidden;padding-top:52px;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background: radial-gradient(ellipse 800px 600px at 70% 40%, rgba(37,99,235,0.18) 0%, transparent 70%),
+              radial-gradient(ellipse 400px 400px at 20% 80%, rgba(124,58,237,0.12) 0%, transparent 60%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image: linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.hero-inner{
+  position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:80px 40px;
+  display:grid;grid-template-columns:1fr 380px;gap:60px;align-items:center;
+}
+.hero-tag{
+  display:inline-block;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--blue-light);
+  border:1px solid rgba(59,130,246,0.4);padding:5px 14px;border-radius:20px;
+  margin-bottom:24px;background:rgba(37,99,235,0.1);
+}
+.hero h1{
+  font-family:'Syne',sans-serif;font-size:clamp(36px,5vw,58px);font-weight:800;
+  color:#fff;line-height:1.05;margin-bottom:12px;
+}
+.hero h1 span{color:var(--blue-light)}
+.hero-role{
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:300;
+  color:rgba(255,255,255,0.6);letter-spacing:.05em;margin-bottom:28px;
+}
+.hero-summary{
+  font-size:15px;line-height:1.7;color:rgba(255,255,255,0.75);
+  max-width:520px;margin-bottom:36px;
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:600;
+  padding:11px 24px;border-radius:8px;text-decoration:none;
+  transition:all .2s;display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:none;
+}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:#1d4ed8;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.35)}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,0.07)}
+
+.hero-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+}
+.stat-card{
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);
+  border-radius:12px;padding:20px;backdrop-filter:blur(8px);
+  transition:transform .2s;
+}
+.stat-card:hover{transform:translateY(-3px)}
+.stat-num{
+  font-family:'Syne',sans-serif;font-size:32px;font-weight:800;
+  color:#fff;line-height:1;margin-bottom:4px;
+}
+.stat-num span{color:var(--blue-light);font-size:20px}
+.stat-label{font-size:11px;color:rgba(255,255,255,0.5);font-weight:300;letter-spacing:.04em}
+
+/* ─── SECTIONS ───────────────────────────────────── */
+.section{max-width:1100px;margin:0 auto;padding:64px 40px}
+.sec-head{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--blue);
+  margin-bottom:8px;
+}
+.sec-title{
+  font-family:'Syne',sans-serif;font-size:28px;font-weight:700;
+  color:var(--dark);margin-bottom:36px;line-height:1.2;
+}
+
+/* ─── EXPERIENCE ─────────────────────────────────── */
+.exp-list{display:flex;flex-direction:column;gap:20px}
+.exp-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:24px 28px;position:relative;overflow:hidden;
+  transition:box-shadow .2s, transform .2s;
+}
+.exp-card:hover{box-shadow:0 8px 32px rgba(37,99,235,0.1);transform:translateY(-2px)}
+.exp-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--blue);border-radius:3px 0 0 3px;
+}
+.exp-card.current::before{background:linear-gradient(180deg,var(--blue),var(--cyan))}
+.exp-card.kyivstar::before{background:var(--muted)}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.exp-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--dark)}
+.exp-company{font-size:13px;font-weight:500;color:var(--blue);margin-bottom:10px}
+.exp-date{font-size:12px;color:var(--muted);font-style:italic}
+.exp-badge{
+  font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 10px;border-radius:10px;background:var(--tag-bg);color:var(--blue);
+}
+.exp-badge.curr{background:#dcfce7;color:#15803d}
+.exp-badge.main{background:#fef3c7;color:#b45309}
+.exp-badge.long{background:var(--tag-bg);color:var(--slate)}
+.exp-buls{list-style:none;padding:0}
+.exp-buls li{
+  font-size:13px;color:var(--slate);line-height:1.6;padding:2px 0 2px 14px;position:relative;
+}
+.exp-buls li::before{content:'—';position:absolute;left:0;color:var(--border)}
+
+/* ─── SKILLS ─────────────────────────────────────── */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.skill-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;
+  transition:box-shadow .2s;
+}
+.skill-card:hover{box-shadow:0 4px 16px rgba(37,99,235,0.08)}
+.skill-cat{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;
+}
+.skill-cat.blue{color:var(--blue)}
+.skill-cat.cyan{color:var(--cyan)}
+.skill-cat.purple{color:var(--purple)}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{
+  font-size:11px;padding:3px 9px;border-radius:6px;font-weight:500;
+}
+.tag.t-blue{background:var(--tag-bg);color:var(--blue)}
+.tag.t-cyan{background:var(--tag-sec);color:var(--cyan)}
+.tag.t-ai{background:var(--tag-ai);color:var(--purple)}
+
+/* ─── BOTTOM GRID ────────────────────────────────── */
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
+.info-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;
+}
+.info-card h3{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;
+}
+.cert-item{font-size:12.5px;color:var(--slate);padding:4px 0;border-bottom:1px solid var(--bg);line-height:1.5}
+.cert-item:last-child{border-bottom:none}
+.lang-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0}
+.lang-name{font-size:13px;font-weight:500;color:var(--dark)}
+.lang-level{font-size:11px;color:var(--muted);font-style:italic}
+.domain-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.domain-tag{
+  font-size:11px;padding:4px 12px;border-radius:20px;
+  background:var(--tag-bg);color:var(--blue);font-weight:500;
+}
+
+/* ─── CONTACT STRIP ──────────────────────────────── */
+.contact-strip{
+  background:linear-gradient(135deg,var(--navy),#1e3a5f);
+  padding:48px 40px;text-align:center;
+}
+.contact-strip h2{
+  font-family:'Syne',sans-serif;font-size:24px;font-weight:700;
+  color:#fff;margin-bottom:8px;
+}
+.contact-strip p{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:24px}
+.contact-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.c-link{
+  font-size:13px;color:rgba(255,255,255,0.8);text-decoration:none;
+  display:flex;align-items:center;gap:6px;transition:color .2s;
+}
+.c-link:hover{color:var(--blue-light)}
+
+/* ─── LANG VISIBILITY ─────────────────────────────── */
+.l-ua,.l-en{display:none}
+body.lang-ua .l-ua{display:block}
+body.lang-en .l-en{display:block}
+body.lang-ua .l-ua.flex-el{display:flex}
+body.lang-en .l-en.flex-el{display:flex}
+body.lang-ua .l-ua.grid-el{display:grid}
+body.lang-en .l-en.grid-el{display:grid}
+body.lang-ua .l-ua.inline-el{display:inline-block}
+body.lang-en .l-en.inline-el{display:inline-block}
+
+/* ─── ANIMATIONS ────────────────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .55s ease both}
+.fade-up:nth-child(1){animation-delay:.05s}
+.fade-up:nth-child(2){animation-delay:.12s}
+.fade-up:nth-child(3){animation-delay:.19s}
+.fade-up:nth-child(4){animation-delay:.26s}
+.fade-up:nth-child(5){animation-delay:.33s}
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr;gap:40px}
+  .hero-stats{display:none}
+  .bottom-grid{grid-template-columns:1fr}
+  .section{padding:48px 20px}
+  .contact-strip{padding:48px 20px}
+}
+</style>
+</head>
+<body class="lang-ua">
+
+<!-- LANG SWITCHER -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('ua')">UA</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+</div>
+
+<!-- ═══ HERO ════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div>
+      <!-- UA -->
+      <div class="l-ua">
+        <div class="hero-tag">Відкритий до пропозицій · Львів, Україна</div>
+        <h1>Владислав<br><span>Небрех</span></h1>
+        <div class="hero-role">Infrastructure Engineer · System Administrator · Data Center</div>
+        <p class="hero-summary">Понад 20 років досвіду адміністрування корпоративної інфраструктури, ЦОД та систем віртуалізації. Експертиза у High Availability, Disaster Recovery та підтримці критичних бізнес-систем.</p>
+        <div class="hero-actions flex-el">
+          <a href="Nebrekh_CV_UA.pdf" class="btn btn-primary" download>⬇ Завантажити CV (UA)</a>
+          <a href="Nebrekh_CV_EN.pdf" class="btn btn-outline" download>⬇ CV (EN)</a>
+          <a href="mailto:vladyslav.n@gmail.com" class="btn btn-outline">✉ Написати</a>
+        </div>
+      </div>
+      <!-- EN -->
+      <div class="l-en">
+        <div class="hero-tag">Open to opportunities · Lviv, Ukraine</div>
+        <h1>Vladyslav<br><span>Nebrekh</span></h1>
+        <div class="hero-role">Infrastructure Engineer · System Administrator · Data Center</div>
+        <p class="hero-summary">20+ years managing enterprise infrastructure, data centers and virtualization platforms across banking and telecom sectors. Deep expertise in HA, DR and mission-critical system support.</p>
+        <div class="hero-actions flex-el">
+          <a href="Nebrekh_CV_EN.pdf" class="btn btn-primary" download>⬇ Download CV (EN)</a>
+          <a href="Nebrekh_CV_UA.pdf" class="btn btn-outline" download>⬇ CV (UA)</a>
+          <a href="mailto:vladyslav.n@gmail.com" class="btn btn-outline">✉ Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="hero-stats">
+      <div class="stat-card fade-up">
+        <div class="stat-num">20<span>+</span></div>
+        <div class="stat-label l-ua inline-el">років досвіду</div>
+        <div class="stat-label l-en inline-el">years experience</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-num">1000<span>+</span></div>
+        <div class="stat-label l-ua inline-el">ВМ під управлінням</div>
+        <div class="stat-label l-en inline-el">VMs managed</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-num">60<span>+</span></div>
+        <div class="stat-label l-ua inline-el">ESXi хостів</div>
+        <div class="stat-label l-en inline-el">ESXi hosts</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-num">3</div>
+        <div class="stat-label l-ua inline-el">сектори: банки · телеком · рітейл</div>
+        <div class="stat-label l-en inline-el">sectors: banking · telecom · retail</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EXPERIENCE ════════════════════════════════════ -->
+<div class="section">
+  <div class="sec-head">01</div>
+  <div class="sec-title l-ua">Досвід роботи</div>
+  <div class="sec-title l-en">Work Experience</div>
+
+  <div class="exp-list">
+
+    <!-- Oxibank -->
+    <div class="exp-card current fade-up">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">System Administrator</div>
+          <div class="exp-company l-ua">АТ «Оксібанк»</div>
+          <div class="exp-company l-en">JSC Oxibank</div>
+        </div>
+        <div style="text-align:right">
+          <div class="exp-badge curr l-ua inline-el">Поточне місце</div>
+          <div class="exp-badge curr l-en inline-el">Current</div>
+          <div class="exp-date" style="margin-top:4px">
+            <span class="l-ua inline-el">груд. 2024 — по т.ч.</span>
+            <span class="l-en inline-el">Dec 2024 — present</span>
+          </div>
+        </div>
+      </div>
+      <ul class="exp-buls">
+        <li>Hyper-V, OVM · DELL servers · Cisco / Fortinet / Aruba · Zabbix</li>
+        <li>Windows AD, DNS, DHCP, Exchange, WSUS, GPO, PowerShell</li>
+        <li>DLP Safetica · ME Patch Manager Plus · AD360 · PAM360 · 2FA ESA · ESET Endpoint Security</li>
+        <li>Jira / Helpdesk</li>
+      </ul>
+    </div>
+
+    <!-- Kredobank -->
+    <div class="exp-card fade-up">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Infrastructure Engineer</div>
+          <div class="exp-company l-ua">АТ «Кредобанк»</div>
+          <div class="exp-company l-en">JSC Kredobank</div>
+        </div>
+        <div style="text-align:right">
+          <div class="exp-badge main l-ua inline-el">Основний</div>
+          <div class="exp-badge main l-en inline-el">Primary role</div>
+          <div class="exp-date" style="margin-top:4px">
+            <span class="l-ua inline-el">лют. 2023 — лип. 2024</span>
+            <span class="l-en inline-el">Feb 2023 — Jul 2024</span>
+          </div>
+        </div>
+      </div>
+      <ul class="exp-buls">
+        <li>VMware vSphere 7 — 60+ ESXi hosts, 1000+ VMs · IBM PowerVM / AIX</li>
+        <li>Lenovo / IBM / DELL / HP · SAN FC Brocade · DELL / NetApp / IBM storage</li>
+        <li>Commvault &amp; Veeam B&amp;R — DR testing, cross-DC replication, Azure archiving</li>
+        <li>Performance analytics: OpManager+, Storr2rrd · FW &amp; software updates</li>
+        <li>OS: Windows Server 2016–2022, RHEL, AIX · Incident management via Jira / SD</li>
+      </ul>
+    </div>
+
+    <!-- Kyivstar -->
+    <div class="exp-card kyivstar fade-up">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Infrastructure Support Engineer</div>
+          <div class="exp-company l-ua">ПрАТ «Київстар» — Технічний департамент, Захід</div>
+          <div class="exp-company l-en">PJSC Kyivstar — Technical Dept, West Region</div>
+        </div>
+        <div style="text-align:right">
+          <div class="exp-badge long l-ua inline-el">16 років</div>
+          <div class="exp-badge long l-en inline-el">16 years</div>
+          <div class="exp-date" style="margin-top:4px">
+            <span class="l-ua inline-el">лип. 2003 — вер. 2019</span>
+            <span class="l-en inline-el">Jul 2003 — Sep 2019</span>
+          </div>
+        </div>
+      </div>
+      <ul class="exp-buls">
+        <li>Ericsson MSS, Huawei BSS, IskraTel Si3000 — core switching network</li>
+        <li>Enterprise IP/MPLS (Cisco, Nokia, Huawei) · SDH, DWDM · SGSN/GGSN</li>
+        <li class="l-ua">Підтримка ЦОД: кондиціювання, контроль доступу, вторинне живлення</li>
+        <li class="l-en">DC infrastructure: cooling, access control, power backup</li>
+        <li class="l-ua">Модернізація мережі з міжнародними вендорами та підрядниками</li>
+        <li class="l-en">Network modernisation with international vendors and contractors</li>
+      </ul>
+    </div>
+
+    <!-- Server Centre + TemaBit side by side -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="exp-card fade-up">
+        <div class="exp-title" style="font-size:14px">System Administrator</div>
+        <div class="exp-company l-ua">ТОВ «Сервер Центр»</div>
+        <div class="exp-company l-en">Server Centre LLC</div>
+        <div class="exp-date l-ua inline-el">лют. 2022 — лют. 2023</div>
+        <div class="exp-date l-en inline-el">Feb 2022 — Feb 2023</div>
+        <ul class="exp-buls" style="margin-top:8px">
+          <li class="l-ua">Підтримка ЦОД; Windows AD, DNS, DHCP, GPO; Linux</li>
+          <li class="l-en">DC support; Windows AD, DNS, DHCP, GPO; Linux</li>
+        </ul>
+      </div>
+      <div class="exp-card fade-up">
+        <div class="exp-title" style="font-size:14px">IT Support Engineer</div>
+        <div class="exp-company l-ua">ТОВ «ТемаБіт» (Fozzy Group)</div>
+        <div class="exp-company l-en">TemaBit LLC (Fozzy Group)</div>
+        <div class="exp-date">2019 — 2022</div>
+        <ul class="exp-buls" style="margin-top:8px">
+          <li class="l-ua">Підтримка ІТ-інфраструктури роздрібної мережі; AD, мережі</li>
+          <li class="l-en">IT infrastructure support for retail network; AD, networking</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ SKILLS ════════════════════════════════════════ -->
+<div style="background:var(--navy);padding:64px 0">
+  <div class="section" style="padding-top:0;padding-bottom:0">
+    <div class="sec-head" style="color:rgba(59,130,246,0.7)">02</div>
+    <div class="sec-title l-ua" style="color:#fff">Ключові навички</div>
+    <div class="sec-title l-en" style="color:#fff">Key Skills</div>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-cat blue l-ua inline-el">Віртуалізація</div>
+        <div class="skill-cat blue l-en inline-el">Virtualization</div>
+        <div class="tags" style="margin-top:8px">
+          <span class="tag t-blue">VMware vSphere 7</span><span class="tag t-blue">vCenter/ESXi</span>
+          <span class="tag t-blue">Hyper-V</span><span class="tag t-blue">OVM</span><span class="tag t-blue">IBM PowerVM</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat blue l-ua inline-el">Залізо та СЗД</div>
+        <div class="skill-cat blue l-en inline-el">Hardware & Storage</div>
+        <div class="tags" style="margin-top:8px">
+          <span class="tag t-blue">Dell/IBM/Lenovo/HP</span><span class="tag t-blue">HP Blade</span>
+          <span class="tag t-blue">IBM POWER</span><span class="tag t-blue">SAN/NAS</span>
+          <span class="tag t-blue">NetApp</span><span class="tag t-blue">FC Brocade</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat blue l-ua inline-el">Бекап та DR</div>
+        <div class="skill-cat blue l-en inline-el">Backup & DR</div>
+        <div class="tags" style="margin-top:8px">
+          <span class="tag t-blue">Commvault</span><span class="tag t-blue">Veeam B&R</span>
+          <span class="tag t-blue">Azure Storage</span><span class="tag t-blue">DR testing</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat blue l-ua inline-el">ОС та сервіси</div>
+        <div class="skill-cat blue l-en inline-el">OS & Services</div>
+        <div class="tags" style="margin-top:8px">
+          <span class="tag t-blue">Windows Server</span><span class="tag t-blue">Linux/RHEL</span>
+          <span class="tag t-blue">AIX</span><span class="tag t-blue">AD/DNS/DHCP</span>
+          <span class="tag t-blue">Exchange/WSUS</span><span class="tag t-blue">GPO/RDS</span><span class="tag t-blue">PowerShell</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat blue l-ua inline-el">Мережі</div>
+        <div class="skill-cat blue l-en inline-el">Networking</div>
+        <div class="tags" style="margin-top:8px">
+          <span class="tag t-blue">Cisco</span><span class="tag t-blue">Fortinet</span>
+          <span class="tag t-blue">Aruba</span><span class="tag t-blue">IP/MPLS</span>
+          <span class="tag t-blue">TCP/IP</span><span class="tag t-blue">SDH/DWDM</span><span class="tag t-blue">VPN/SIP</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat cyan l-ua inline-el">Безпека ★</div>
+        <div class="skill-cat cyan l-en inline-el">Security ★</div>
+        <div class="tags" style="margin-top:8px">
+          <span class="tag t-cyan">DLP Safetica</span><span class="tag t-cyan">ESET Endpoint</span>
+          <span class="tag t-cyan">PAM360</span><span class="tag t-cyan">AD360</span>
+          <span class="tag t-cyan">2FA ESA</span><span class="tag t-cyan">Patch Mgr+</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat blue l-ua inline-el">Моніторинг & ITSM</div>
+        <div class="skill-cat blue l-en inline-el">Monitoring & ITSM</div>
+        <div class="tags" style="margin-top:8px">
+          <span class="tag t-blue">Zabbix</span><span class="tag t-blue">OpManager+</span>
+          <span class="tag t-blue">Jira/SD</span><span class="tag t-blue">Helpdesk</span>
+          <span class="tag t-blue">GitLab/Git</span><span class="tag t-blue">Ansible</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat blue l-ua inline-el">Хмари</div>
+        <div class="skill-cat blue l-en inline-el">Cloud</div>
+        <div class="tags" style="margin-top:8px">
+          <span class="tag t-blue">Microsoft Azure</span><span class="tag t-blue">AWS (basics)</span><span class="tag t-blue">GCP (basics)</span>
+        </div>
+      </div>
+      <div class="skill-card" style="grid-column:span 1">
+        <div class="skill-cat purple l-ua inline-el">AI-інструменти ✦</div>
+        <div class="skill-cat purple l-en inline-el">AI Tools ✦</div>
+        <div class="tags" style="margin-top:8px">
+          <span class="tag t-ai">Claude</span><span class="tag t-ai">Gemini</span>
+          <span class="tag t-ai">Codex</span><span class="tag t-ai">Hermes</span><span class="tag t-ai">OpenClaw</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ EDUCATION / CERTS / LANG ═════════════════════ -->
+<div class="section">
+  <div class="sec-head">03</div>
+  <div class="sec-title l-ua">Освіта, сертифікати та мови</div>
+  <div class="sec-title l-en">Education, Certificates & Languages</div>
+
+  <div class="bottom-grid">
+    <div class="info-card">
+      <h3 class="l-ua">Освіта</h3>
+      <h3 class="l-en">Education</h3>
+      <div style="margin-bottom:12px">
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--dark)">
+          <span class="l-ua inline-el">НУ «Львівська Політехніка»</span>
+          <span class="l-en inline-el">Lviv Polytechnic National University</span>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-top:3px">
+          <span class="l-ua inline-el">Магістр, ІТРА · Інформаційні мережі зв'язку · 1997–2002</span>
+          <span class="l-en inline-el">Master's, ITRA · Information Communication Networks · 1997–2002</span>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <h3 class="l-ua" style="margin-bottom:10px">Домени</h3>
+        <h3 class="l-en" style="margin-bottom:10px">Domains</h3>
+        <div class="domain-tags">
+          <span class="domain-tag l-ua inline-el">Fintech/Banking · 3 р.</span>
+          <span class="domain-tag l-ua inline-el">Telecom · 6 р.</span>
+          <span class="domain-tag l-ua inline-el">Mobile · 10 р.</span>
+          <span class="domain-tag l-en inline-el">Fintech/Banking · 3 yr</span>
+          <span class="domain-tag l-en inline-el">Telecom · 6 yr</span>
+          <span class="domain-tag l-en inline-el">Mobile · 10 yr</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3 class="l-ua">Сертифікати</h3>
+      <h3 class="l-en">Certificates</h3>
+      <div class="cert-item">AWS Cloud Practitioner — IT Skills 4U</div>
+      <div class="cert-item">DevOps Essentials — EPAM TP</div>
+      <div class="cert-item">SQL/Python Fundamentals — SoloLearn</div>
+      <div class="cert-item">Huawei MSC/BSC Maintenance</div>
+      <div class="cert-item">Ericsson APG40 O&M / Installation</div>
+      <div class="cert-item">AXE 10 Emergency Handling</div>
+    </div>
+
+    <div class="info-card">
+      <h3 class="l-ua">Мови</h3>
+      <h3 class="l-en">Languages</h3>
+      <div class="lang-row">
+        <span class="lang-name l-ua inline-el">Українська</span>
+        <span class="lang-name l-en inline-el">Ukrainian</span>
+        <span class="lang-level l-ua inline-el">вільно / native</span>
+        <span class="lang-level l-en inline-el">native</span>
+      </div>
+      <div class="lang-row">
+        <span class="lang-name l-ua inline-el">Англійська</span>
+        <span class="lang-name l-en inline-el">English</span>
+        <span class="lang-level">B1</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CONTACT ═══════════════════════════════════════ -->
+<div class="contact-strip">
+  <h2 class="l-ua">Зв'яжіться зі мною</h2>
+  <h2 class="l-en">Get in touch</h2>
+  <p class="l-ua">Відкритий до нових можливостей · Львів, Україна</p>
+  <p class="l-en">Open to new opportunities · Lviv, Ukraine</p>
+  <div class="contact-links">
+    <a href="mailto:vladyslav.n@gmail.com" class="c-link">✉ vladyslav.n@gmail.com</a>
+    <a href="tel:+380676706167" class="c-link">📞 +38 (067) 670 61 67</a>
+    <a href="Nebrekh_CV_UA.pdf" class="c-link" download>⬇ CV UA</a>
+    <a href="Nebrekh_CV_EN.pdf" class="c-link" download>⬇ CV EN</a>
+  </div>
+</div>
+
+<script>
+function setLang(lang) {
+  document.body.className = 'lang-' + lang;
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === lang.toUpperCase());
+  });
+  // Fix flex/grid containers
+  document.querySelectorAll('.hero-actions').forEach(el => {
+    el.style.display = (el.classList.contains('l-' + lang) || !el.classList.contains('l-ua') && !el.classList.contains('l-en')) ? 'flex' : 'none';
+  });
+}
+// Init
+setLang('ua');
+
+// Intersection observer for fade-up
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.style.animationPlayState = 'running'; });
+}, {threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
